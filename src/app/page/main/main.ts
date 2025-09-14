@@ -11,6 +11,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
+
+
+
 @Component({
   selector: 'app-main',
   imports: [
@@ -23,13 +26,14 @@ import { RouterLink } from '@angular/router';
     MatCard,
     MatCardContent,
     MatCardTitle,
-    RouterLink
+    RouterLink,
+    MatCard
 ],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
 export class Main {
-  constructor(private http: HttpClient, private tripService: Trip) {}
+  constructor(private http: HttpClient, private tripService: Trip ) {}
 
   trips: TripGetRes[] = [];
   tripsSelect: TripGetRes[] = [];
@@ -89,5 +93,9 @@ export class Main {
     console.log('Call Completed');
   }
 
+  public async deleteTrip(id: number){
+     const result = this.tripService.delectTrip(id);
+     console.log(result)
+  }
   
 }

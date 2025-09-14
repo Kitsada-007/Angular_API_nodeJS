@@ -1,12 +1,23 @@
-<mat-card *ngIf="trip">
-    <img mat-card-image [src]="trip.coverimage" alt="{{ trip.name }}">
-    <mat-card-title>{{ trip.name }}</mat-card-title>
+<mat-card *ngIf="trip" class="trip-detail-card">
+    <img mat-card-image [src]="trip.coverimage" alt="{{ trip.name }}" class="cover-image">
+
+    <mat-card-header>
+        <mat-card-title>{{ trip.name }}</mat-card-title>
+        <mat-card-subtitle>{{ trip.country }} | {{ trip.destination_zone }}</mat-card-subtitle>
+    </mat-card-header>
+
     <mat-card-content>
-        <p><strong>ประเทศ:</strong> {{ trip.country }}</p>
-        <p><strong>โซน:</strong> {{ trip.destination_zone }}</p>
         <p><strong>รายละเอียด:</strong> {{ trip.detail }}</p>
-        <p><strong>ราคา:</strong> {{ trip.price | currency:'THB' }}</p>
+        <p><strong>ราคา:</strong> {{ trip.price | currency:'THB':'symbol':'1.0-0' }}</p>
         <p><strong>ระยะเวลา:</strong> {{ trip.duration }} วัน</p>
     </mat-card-content>
-    <button mat-raised-button color="primary" routerLink="">⬅ กลับหน้าแรก</button>
+
+    <mat-card-actions class="actions">
+        <button mat-stroked-button color="primary" routerLink="/">
+            กลับหน้าแรก
+        </button>
+        <button mat-raised-button color="accent" [routerLink]="['/edit', trip.idx]">
+            แก้ไข
+        </button>
+    </mat-card-actions>
 </mat-card>

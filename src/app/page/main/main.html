@@ -1,54 +1,55 @@
-<h2 style="margin-bottom: 20px;">🔍 ค้นหาสถานที่ท่องเที่ยว</h2>
+<div class="search-container">
 
-<div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+    <h2 class="title">ค้นหาสถานที่ท่องเที่ยว</h2>
 
-    <!-- ค้นหาด้วย ID -->
-    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-        <mat-label>ค้นหาด้วย ID</mat-label>
-        <input matInput #keyword />
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="findOne(keyword)">
-        FindOne
-    </button>
+    <!-- Search controls -->
+    <div class="search-bar">
+        <mat-form-field appearance="outline">
+            <mat-label>ค้นหาด้วย ID</mat-label>
+            <input matInput #keyword />
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="findOne(keyword)">
+            FindOne
+        </button>
 
-    <!-- ค้นหาด้วยชื่อ -->
-    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-        <mat-label>ค้นหาด้วยชื่อสถานที่</mat-label>
-        <input matInput #nameKeyword />
-    </mat-form-field>
-    <button mat-raised-button color="accent" (click)="findByName(nameKeyword)">
-        FindByName
-    </button>
+        <mat-form-field appearance="outline">
+            <mat-label>ค้นหาด้วยชื่อสถานที่</mat-label>
+            <input matInput #nameKeyword />
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="findByName(nameKeyword)">
+            FindByName
+        </button>
 
-    <!-- เลือกโซน -->
-    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-        <mat-label>เลือกโซน</mat-label>
-        <mat-select [(ngModel)]="selectedValue" (selectionChange)="selectDatabyZone()">
-            <mat-option value="">ทั้งหมด</mat-option>
-            <mat-option value="ยุโรป">ยุโรป</mat-option>
-            <mat-option value="เอเชียตะวันออกเฉียงใต้">เอเชียตะวันออกเฉียงใต้</mat-option>
-            <mat-option value="เอเชีย">เอเชีย</mat-option>
-            <mat-option value="ประเทศไทย">ประเทศไทย</mat-option>
-        </mat-select>
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>เลือกโซน</mat-label>
+            <mat-select [(ngModel)]="selectedValue" (selectionChange)="selectDatabyZone()">
+                <mat-option value="">ทั้งหมด</mat-option>
+                <mat-option value="ยุโรป">ยุโรป</mat-option>
+                <mat-option value="เอเชียตะวันออกเฉียงใต้">เอเชียตะวันออกเฉียงใต้</mat-option>
+                <mat-option value="เอเชีย">เอเชีย</mat-option>
+                <mat-option value="ประเทศไทย">ประเทศไทย</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 
+    <!-- Result list -->
+    <div *ngIf="tripsSelect.length > 0; else noData" class="result-list">
+        <mat-card *ngFor="let item of tripsSelect" class="trip-card">
+            <a [routerLink]="['/details', item.idx]" class="trip-link">
+                <mat-card-title>{{ item.name }}</mat-card-title>
+                <mat-card-content>
+                    <p><b>โซน:</b> {{ item.destination_zone }}</p>
+                </mat-card-content>
+            </a>
+            <div class="card-actions">
+                <button mat-stroked-button color="warn" (click)="deleteTrip(item.idx)">
+                    ลบ
+                </button>
+            </div>
+        </mat-card>
+    </div>
+
+    <ng-template #noData>
+        <p class="no-data">ไม่มีข้อมูลที่ค้นหา</p>
+    </ng-template>
 </div>
-
-<!-- แสดงผลลัพธ์ -->
-<div *ngIf="tripsSelect.length > 0; else noData">
-    <mat-card *ngFor="let item of tripsSelect" style="margin-bottom: 15px; padding: 10px;">
-        <a [routerLink]="['/details', item.idx]">>
-            <mat-card-title>{{ item.name }}</mat-card-title>
-            <mat-card-content>
-                <p><b>ID:</b> {{ item.idx }}</p>
-                <p><b>โซน:</b> {{ item.destination_zone }}</p>
-            </mat-card-content>
-        </a>
-
-
-    </mat-card>
-</div>
-
-<ng-template #noData>
-    <p style="color: gray; font-style: italic;">ไม่มีข้อมูลที่ค้นหา</p>
-</ng-template>
